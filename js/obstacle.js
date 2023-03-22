@@ -1,23 +1,38 @@
 class Obstacle {
-	constructor(game) {
-		this.width = game.player.width / 2;
-		this.height = game.player.height * 0.8;
+	contador=0;
+	
+  constructor(game) {
+    this.img = new Image();
+    this.img.src = "PNG/Meteors/Meteor_05.png";
+    this.width = game.player.width / 2;
+    this.height = game.player.height * 0.8;
+    this.pos = {
+      x: 0,
+      y: 100,
+    };
+    this.game = game;
+    this.speed = 1;
+    this.dx = 10;
+  }
 
-		this.pos = {
-			x: game.width,
-			y: game.player.y0 + game.player.height - this.height,
-		};
 
-		this.game = game;
 
-		this.dx = 10;
-	}
+  draw() {
+    const { ctx } = this.game;
+    ctx.drawImage(this.img, this.pos.x, this.pos.y, this.width, this.height);
+  }
 
-	draw() {
-		this.game.ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-	}
-
-	move() {
-		this.pos.x -= this.dx;
-	}
+  move() {
+	this.pos.x += this.speed;
+	
+     if (this.pos.x >=( 700 - this.width) || this.pos.x <=0) {
+	  console.log("CHOCANDO MURO");
+	  this.contador++;
+	  this.speed *= -1;
+	  if(this.contador==2){
+		console.log("contador "+this.contador); 
+		this.pos.y +=50;
+		}
+		}
+  }
 }

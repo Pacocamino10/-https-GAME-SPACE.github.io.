@@ -4,12 +4,13 @@ class Background {
 
 		this.img = new Image();
 
-		this.img.src = 'assets/bg.png';
+		this.img.src = 'fondo/fondoEstrellas.jpg';
 
 		this.x = 0;
 		this.y = 0;
 
-		this.dx = 10;
+		this.dx = 5;
+		this.dy = 10;
 	}
 
 	draw() {
@@ -23,18 +24,22 @@ class Background {
 
 		this.game.ctx.drawImage(
 			this.img,
-			this.x + this.game.width,
-			this.y,
+			this.x ,
+			this.y-this.game.height,
 			this.game.width,
 			this.game.height
 		);
 	}
 
 	move() {
-		if (this.x - this.dx <= -this.game.width) {
-			this.x = 0;
+
+//  addEventListener('keydown', ({code}) => { console.log(code)});
+
+		if (this.y  >= this.game.height) {
+			this.y = 0;
 		}
 
-		this.x -= this.dx;
+		this.y += this.dy;
 	}
 }
+ 

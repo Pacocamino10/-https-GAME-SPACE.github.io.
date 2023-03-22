@@ -1,105 +1,113 @@
 class Player {
-	constructor(x, y, game) {
-		this.game = game;
+  constructor(x, y, game) {
+    this.game = game;
 
-		this.img = new Image();
-		this.img.src = 'assets/player.png';
+    this.img = new Image();
+    this.img.src = "PNG/navesYaliens/pngwing.com.png";
 
-		this.img.currentFrame = 0;
-		this.img.frameCount = 3;
+    this.img.currentFrame = 0;
+    this.img.frameCount = 3;
 
-		this.width = 146 * 0.5;
-		this.height = 180 * 0.5;
+    this.width = 146 * 0.5;
+    this.height = 180 * 0.5;
 
-		this.y0 = game.height * 0.8;
+    this.y0 = game.height * 0.8;
 
-		console.log(this.y0);
+    this.pos = {
+      x: game.width * 0.2,
+      y: this.y0,
+    };
 
-		this.pos = {
-			x: game.width * 0.2,
-			y: this.y0,
-		};
+    this.speed = {
+      x: 0,
+      y: 0,
+    };
 
-		this.speed = {
-			x: 0,
-			y: 0,
-		};
+    this.bullets = [];
 
-		this.bullets = [];
+    this.setCotrols();
 
-		this.setCotrols();
-	}
+    this.controls = {
+      left: {
+        pressed: false,
+      },
+      right: {
+        pressed: false,
+      },
+    };
+  }
 
-	setCotrols() {
-		const { JUMP, SHOOT } = this.game.keys;
+  setCotrols() {
+    const { IZQ, DCHA } = this.game.keys;
 
-		addEventListener('keyup', ({ code }) => {
-			switch (code) {
-				case JUMP:
-					if (this.y0 === this.pos.y) {
-						this.speed.y = -10;
-						this.pos.y -= 1;
-					}
-					break;
+    addEventListener("keydown", ({ code }) => {
+      switch (code) {
+        case IZQ:
+          if (this.pos.x > 0) {
+            console.log("izquierda");
+            this.speed.x = -3;
+            this.controls.left.pressed = true;
+          }
+          break;
 
-				case SHOOT:
-					this.shoot();
-					break;
-			}
-		});
-	}
+        case DCHA:
+          if (this.width < this.game.width) {
+            console.log("derecha");
+            this.speed.x = 3;
+            this.controls.right.pressed = true;
+          }
+          break;
+      }
+    });
+    addEventListener("keyup", ({ code }) => {
+      switch (code) {
+        case IZQ:
+          this.speed.x = 0;
+		  this.controls.left.pressed = false;
+          break;
 
-	draw(frameCounter) {
-		const { ctx } = this.game;
+        case DCHA:
+          if (this.width < this.game.width) {
+            console.log("derecha");
+            this.speed.x = 0;
+			this.controls.right.pressed = false;
 
-		this.animateSprite(frameCounter);
+          }
+          break;
+      }
+    });
+  }
 
-		ctx.drawImage(
-			this.img,
-			this.img.currentFrame * (this.img.width / this.img.frameCount),
-			0,
-			this.img.width / this.img.frameCount,
-			this.img.height,
-			this.pos.x,
-			this.pos.y,
-			this.width,
-			this.height
-		);
+  draw() {
+    const { ctx } = this.game;
 
-		this.bullets = this.bullets.filter(
-			(bullet) => bullet.pos.x - bullet.radius < this.game.width
-		);
+    ctx.drawImage(this.img, this.pos.x, this.pos.y, this.width, this.height);
 
-		this.bullets.forEach((bullet) => {
-			bullet.draw();
-			bullet.move();
-		});
-	}
+    this.bullets = this.bullets.filter(
+      (bullet) => bullet.pos.x - bullet.radius < this.game.width
+    );
 
-	shoot() {
-		this.bullets.push(new Bullet(this.game));
-	}
+    this.bullets.forEach((bullet) => {
+      bullet.draw();
+      bullet.move();
+    });
+  }
 
-	animateSprite(frameCounter) {
-		if (frameCounter % 6 === 0) {
-			this.img.currentFrame++;
+  shoot() {
+    this.bullets.push(new Bullet(this.game));
+  }
 
-			if (this.img.currentFrame === this.img.frameCount) {
-				this.img.currentFrame = 0;
-			}
-		}
-	}
+  move() {
+    
 
-	move() {
-		const gravity = 0.5;
+    if (this.controls.right.pressed) {
+      this.speed.x = 3;
+    } else if (this.controls.left.pressed) {
+      this.speed.x = -3;
+    } else {
+		this.speed.x = 0;
+    }
 
-		if (this.pos.y < this.y0) {
-			this.speed.y += gravity;
-		} else {
-			this.speed.y = 0;
-			this.pos.y = this.y0;
-		}
-
-		this.pos.y += this.speed.y;
-	}
+	this.pos.x += this.speed.x;
+  }
 }
