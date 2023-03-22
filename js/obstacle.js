@@ -4,11 +4,11 @@ class Obstacle {
   constructor(game) {
     this.img = new Image();
     this.img.src = "PNG/Meteors/Meteor_05.png";
-    this.width = game.player.width / 2;
+    this.width = 110 / 2;
     this.height = game.player.height * 0.8;
     this.pos = {
       x: 0,
-      y: 100,
+      y: 200,
     };
     this.game = game;
     this.speed = 1;
@@ -23,14 +23,15 @@ class Obstacle {
   }
 
   move() {
+	console.log("moviendo OBS");
 	this.pos.x += this.speed;
 	
      if (this.pos.x >=( 700 - this.width) || this.pos.x <=0) {
-	  console.log("CHOCANDO MURO");
+	  //console.log("CHOCANDO MURO");
 	  this.contador++;
 	  this.speed *= -1;
-	  if(this.contador==2){
-		console.log("contador "+this.contador); 
+	  if(this.contador){
+		//console.log("contador "+this.contador); 
 		this.pos.y +=50;
 		}
 		}

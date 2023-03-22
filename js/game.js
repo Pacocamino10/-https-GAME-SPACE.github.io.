@@ -25,8 +25,10 @@ const Game = {
 		this.background = new Background(this);
 		this.proteccion = new Proteccion(this);
 		this.obstacle = new Obstacle(this);
+		
 
 		this.obstacles=[];
+		this.aliens=[];
 		
 		this.score = 0;
 
@@ -36,6 +38,7 @@ const Game = {
 	start() {
 		this.frameCounter = 0;
 		this.contadorObs=0;
+		this.contadorAlien=0;
 
 		
 		this.animationLoopId = setInterval(() => {
@@ -43,12 +46,15 @@ const Game = {
 
 			this.frameCounter++;
 			this.score += 0.01;
-			if (this.frameCounter % 80 === 0)
-			
+			if (this.frameCounter % 80 === 0){
 			if(this.contadorObs<5){
 				this.generateObstacle();
 			this.contadorObs++}
-		
+			if(this.contadorAlien<3){
+				this.generateAlien();
+			this.contadorAlien++}}
+			
+			
 	
 
 			this.drawAll();
@@ -66,9 +72,13 @@ const Game = {
 
 	drawAll() {
 		this.background.draw();
-		this.proteccion.draw()
+		this.proteccion.draw();
+	
 		this.obstacles.forEach((obstacle) => {
 			obstacle.draw();
+		});
+		this.aliens.forEach((alien) => {
+			alien.draw();
 		});
 		
 		this.player.draw();
@@ -80,7 +90,9 @@ const Game = {
 		this.obstacles.forEach((obstacle) => {
 			obstacle.move();
 		});
-
+		this.aliens.forEach((alien)=>{
+			alien.move()
+		});
 		 this.player.move(this.frameCounter);
 	},
 
@@ -91,10 +103,13 @@ const Game = {
 		);
 	},
 	generateObstacle() {
-		
-	
 			this.obstacles.push(new Obstacle(this))
-			
+
+	},
+
+	generateAlien() {
+		
+			this.aliens.push(new Alien(this))	
 		
 	},
 
