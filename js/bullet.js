@@ -3,18 +3,22 @@ class Bullet {
 		this.game = game;
 
 		const { player } = game;
-
+		this.img = new Image();
+		this.img.src = "PNG/Props/Rocket_Effect_01.png";
 		this.pos = {
-			x: player.pos.x + player.width,
+			x: player.pos.x + player.width/2,
 			y: player.pos.y,
 		};
+		this.width=20;
+		this.heigth=50
 
 		this.speed = {
-			x: 10,
-			y: 1,
+		
+			y: 10,
 		};
 
-		this.radius = 10;
+
+		this.radius = +10;
 	}
 
 	draw() {
@@ -22,22 +26,13 @@ class Bullet {
 
 		ctx.beginPath();
 		ctx.save();
-		ctx.fillStyle = 'red';
-		ctx.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
+		ctx.drawImage(this.img, this.pos.x, this.pos.y,this.width,this.heigth);
 		ctx.fill();
 		ctx.restore();
 		ctx.closePath();
 	}
 
 	move() {
-		const gravity = 0.25;
-
-		this.speed.y += gravity;
-		this.pos.y += this.speed.y;
-		this.pos.x += this.speed.x;
-
-		if (this.pos.y > this.game.player.y0 + this.game.player.height) {
-			this.speed.y *= -1;
-		}
+		this.pos.y -= this.speed.y
 	}
 }

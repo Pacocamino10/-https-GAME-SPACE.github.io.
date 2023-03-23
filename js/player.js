@@ -1,5 +1,5 @@
 class Player {
-  constructor(x, y, game) {
+  constructor(game) {
     this.game = game;
 
     this.img = new Image();
@@ -38,8 +38,8 @@ class Player {
   }
 
   setCotrols() {
-    const { IZQ, DCHA } = this.game.keys;
-
+    const {IZQ, DCHA, SHOOT } = this.game.keys;
+console.log();
     addEventListener("keydown", ({ code }) => {
       switch (code) {
         case IZQ:
@@ -51,11 +51,14 @@ class Player {
           break;
 
         case DCHA:
-          if (this.width < this.game.width) {
+          if (this.pos.x < (this.game.width-this.width)) {
             console.log("derecha");
             this.speed.x = 3;
             this.controls.right.pressed = true;
           }
+          break;
+        case SHOOT:
+          this.shoot();
           break;
       }
     });
@@ -63,19 +66,20 @@ class Player {
       switch (code) {
         case IZQ:
           this.speed.x = 0;
-		  this.controls.left.pressed = false;
+          this.controls.left.pressed = false;
           break;
 
         case DCHA:
           if (this.width < this.game.width) {
             console.log("derecha");
             this.speed.x = 0;
-			this.controls.right.pressed = false;
-
+            this.controls.right.pressed = false;
           }
-          break;
       }
     });
+  }
+  shoot() {
+    this.bullets.push(new Bullet(this.game));
   }
 
   draw() {
@@ -98,16 +102,15 @@ class Player {
   }
 
   move() {
-    
-
+   
     if (this.controls.right.pressed) {
-      this.speed.x = 3;
+      this.speed.x = 10;
     } else if (this.controls.left.pressed) {
-      this.speed.x = -3;
+      this.speed.x = -10;
     } else {
-		this.speed.x = 0;
+      this.speed.x = 0;
     }
 
-	this.pos.x += this.speed.x;
+    this.pos.x += this.speed.x;
   }
 }

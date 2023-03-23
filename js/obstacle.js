@@ -23,7 +23,6 @@ class Obstacle {
   }
 
   move() {
-	console.log("moviendo OBS");
 	this.pos.x += this.speed;
 	
      if (this.pos.x >=( 700 - this.width) || this.pos.x <=0) {
