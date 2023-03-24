@@ -10,6 +10,7 @@ class Alien {
     this.y = 0 * 0.01;
     this.bulletsAlien = [];
     this.contadorSpeed = 0;
+    this.contadorColision=0;
   }
 
   draw() {
@@ -33,7 +34,6 @@ class Alien {
     }
   }
   shoot() {
-    console.log("disparando");
     this.bulletsAlien.push(new BulletAlien(this.game, (this.x+this.width)/2,this.y+this.height));
   }
 }

@@ -28,10 +28,9 @@ const Game = {
     this.obstacle = new Obstacle(this);
     this.bullet = new Bullet(this);
     this.bulletAlien = new BulletAlien(this);
-
     this.obstacles = [];
     this.aliens = [];
-	this.bulletAlien = [];
+    this.protecciones = [];
     this.bullets = [];
     this.score = 0;
 
@@ -42,6 +41,7 @@ const Game = {
     this.frameCounter = 0;
     this.contadorObs = 0;
     this.contadorAlien = 0;
+    this.contadorProteccion = 0;
     this.animationLoopId = setInterval(() => {
       this.clear();
 
@@ -56,6 +56,10 @@ const Game = {
           this.generateAlien();
           this.contadorAlien++;
         }
+        if (this.contadorProteccion < 1) {
+          this.generateProteccion();
+          this.contadorProteccion++;
+        }
       }
 
       this.drawAll();
@@ -63,7 +67,12 @@ const Game = {
 
       this.scoreBoard.update(this.score);
 
-      if (this.isCollisionBullet()) this.clearObstacles();
+      if (this.isCollisionBullet()) {
+        this.clearObstacles();
+      }
+      if (this.isCollisionBulletAlien()) {
+        this.clearObstacles();
+      }
     }, 1000 / this.fps);
   },
 
@@ -78,6 +87,10 @@ const Game = {
       alien.draw();
     });
 
+    this.protecciones.forEach((proteccion) => {
+      proteccion.draw();
+    });
+
     this.player.draw();
   },
 
@@ -89,6 +102,9 @@ const Game = {
     });
     this.aliens.forEach((alien) => {
       alien.move();
+    });
+    this.protecciones.forEach((proteccion) => {
+      proteccion.move();
     });
 
     this.player.move(this.frameCounter);
@@ -105,19 +121,44 @@ const Game = {
   generateAlien() {
     this.aliens.push(new Alien(this));
   },
+
+  generateProteccion() {
+    this.protecciones.push(new Proteccion(this, 0));
+    this.protecciones.push(new Proteccion(this, 300));
+  },
+
   isCollisionBullet() {
     return this.obstacles.some((obstacle) => {
       return this.player.bullets.some((bullet) => {
         const isCollision =
-          bullet.pos.x + bullet.radius > obstacle.pos.x &&
-          bullet.pos.x - bullet.radius < obstacle.pos.x + obstacle.width &&
-          bullet.pos.y + bullet.radius > obstacle.pos.y &&
-          bullet.pos.y - bullet.radius < obstacle.pos.y + obstacle.height;
+          bullet.pos.x > obstacle.pos.x &&
+          bullet.pos.x < obstacle.pos.x + obstacle.width &&
+          bullet.pos.y > obstacle.pos.y &&
+          bullet.pos.y < obstacle.pos.y + obstacle.height;
 
         if (isCollision) {
-          console.log(obstacle);
-          console.log("COLISION");
+      
           this.obstacles = this.obstacles.filter((o) => o !== obstacle);
+          this.player.bullets = this.player.bullets.filter((b) => b !== bullet);
+        }
+
+        return isCollision;
+      });
+    });
+  },
+
+  isCollisionBulletAlien() {
+    return this.aliens.some((alien) => {
+      return this.player.bullets.some((bullet) => {
+        const isCollision =
+          bullet.pos.x > alien.x &&
+          bullet.pos.x < alien.x + alien.width &&
+          bullet.pos.y > alien.y &&
+          bullet.pos.y < alien.y + alien.height;
+
+        if (isCollision) {
+
+          this.aliens = this.aliens.filter((o) => o !== alien);
           this.player.bullets = this.player.bullets.filter((b) => b !== bullet);
         }
 

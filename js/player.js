@@ -39,12 +39,10 @@ class Player {
 
   setCotrols() {
     const {IZQ, DCHA, SHOOT } = this.game.keys;
-console.log();
     addEventListener("keydown", ({ code }) => {
       switch (code) {
         case IZQ:
           if (this.pos.x > 0) {
-            console.log("izquierda");
             this.speed.x = -3;
             this.controls.left.pressed = true;
           }
@@ -52,7 +50,6 @@ console.log();
 
         case DCHA:
           if (this.pos.x < (this.game.width-this.width)) {
-            console.log("derecha");
             this.speed.x = 3;
             this.controls.right.pressed = true;
           }
@@ -71,7 +68,6 @@ console.log();
 
         case DCHA:
           if (this.width < this.game.width) {
-            console.log("derecha");
             this.speed.x = 0;
             this.controls.right.pressed = false;
           }
