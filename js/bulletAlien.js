@@ -12,10 +12,9 @@ class BulletAlien {
     this.height = 50;
 
     this.speed = {
-      y: -10,
+      y: -5,
     };
 
-    this.radius = 10;
   }
 
   draw() {

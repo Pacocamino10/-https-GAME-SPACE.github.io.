@@ -3,15 +3,15 @@ class Player {
     this.game = game;
 
     this.img = new Image();
-    this.img.src = "PNG/navesYaliens/pngwing.com.png";
+    this.img.src = "PNG/navesYaliens/nave1.png";
 
     this.img.currentFrame = 0;
     this.img.frameCount = 3;
 
-    this.width = 146 * 0.5;
-    this.height = 180 * 0.5;
+    this.width = 100;
+    this.height = 130;
 
-    this.y0 = game.height * 0.8;
+    this.y0 = game.height * 0.85;
 
     this.pos = {
       x: game.width * 0.2,
@@ -54,11 +54,8 @@ class Player {
             this.controls.right.pressed = true;
           }
           break;
-        case SHOOT:
-          this.shoot();
-          break;
-      }
-    });
+        }
+      });
     addEventListener("keyup", ({ code }) => {
       switch (code) {
         case IZQ:
@@ -66,6 +63,9 @@ class Player {
           this.controls.left.pressed = false;
           break;
 
+      case SHOOT:
+        this.shoot();
+        break;
         case DCHA:
           if (this.width < this.game.width) {
             this.speed.x = 0;

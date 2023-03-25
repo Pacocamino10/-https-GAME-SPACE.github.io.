@@ -4,12 +4,12 @@ class Bullet {
 
 		const { player } = game;
 		this.img = new Image();
-		this.img.src = "PNG/Props/Rocket_Effect_01.png";
+		this.img.src = "PNG/Props/Missile_03.png";
 		this.pos = {
-			x: player.pos.x + player.width/2,
+			x: player.pos.x + player.width/2-20,
 			y: player.pos.y,
 		};
-		this.width=20;
+		this.width=40;
 		this.heigth=50
 
 		this.speed = {

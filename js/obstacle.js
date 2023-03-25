@@ -3,7 +3,7 @@ class Obstacle {
 	
   constructor(game) {
     this.img = new Image();
-    this.img.src = "PNG/Meteors/Meteor_05.png";
+    this.img.src = "PNG/Meteors/meteorito.png";
     this.width = 110 / 2;
     this.height = game.player.height * 0.8;
     this.pos = {
@@ -13,6 +13,8 @@ class Obstacle {
     this.game = game;
     this.speed = 1;
     this.dx = 10;
+    this.contadorColision=0;
+
   }
 
 

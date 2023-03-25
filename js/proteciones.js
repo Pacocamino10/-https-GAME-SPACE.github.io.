@@ -5,10 +5,10 @@ class Proteccion {
     this.img.src = "PNG/Meteors/Meteor_09.png";
     this.width = 120;
     this.height = 120;
+    this.contadorColision=0;
 
-
-    this.x = 115 + x;
-    this.y = innerHeight * 0.7;
+    this.x = 165 + x;
+    this.y = 850;
   }
 
   draw() {    const { ctx } = this.game;
