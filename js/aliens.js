@@ -32,6 +32,9 @@ class Alien {
     }
   }
   shoot() {
+    const audio2 = new Audio("musica/dis.mp3");
+    audio2.play();
+
     this.game.bulletsAlien.push(new BulletAlien(this.game, ((this.x+this.width)/2)-10,this.y+this.height))
   }
 }

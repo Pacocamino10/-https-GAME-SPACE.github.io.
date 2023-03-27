@@ -6,17 +6,37 @@
     justify-content: center;
     align-items: center;
 }
-canvas{
+.principal2{
+    width: 900px;
+    height: 1200px;
+    display: flex;
+    font-size: 80px;
+    color: rgb(255, 255, 255);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-image: url('fondo/fondoEstrellas.jpg');
+    justify-content: center;
+    align-items: center;
+}
+h1{
+    font-size: 150px;
+    color: rgb(255, 255, 255);
 
-background-color: blue;
 }
 .botonInicio{
     text-align: center;
     font-family: Georgia, 'Times New Roman', Times, serif;
     border-radius: 60%;
-    background-color: rgb(0, 12, 175);
+    background-color: rgb(175, 0, 0);
     color: white;
-    width: 300px;
-    height: 300px;
-    font-size: 40px;
+    width: 100px;
+    height: 100px;
+    font-size: 25px;
+    
+}
+body{
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

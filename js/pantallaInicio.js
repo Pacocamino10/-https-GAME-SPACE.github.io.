@@ -1,7 +1,10 @@
 class PantallaInicio {
+    
   constructor() {
-      let canvas = document.querySelector("canvas").remove();
-    let pantalla = document.querySelector(".principal");
+
+    let titulo = document.createElement('h1');
+    titulo.textContent="ALIEN SPACE";
+    document.querySelector(".principal").appendChild(titulo);
 
     let boton = document.createElement("button");
     boton.addEventListener("click", this.funcionEjecutar);
@@ -13,7 +16,11 @@ class PantallaInicio {
   funcionEjecutar() {
 
 document.body.innerHTML="";
-    Game.init();
+const audio2 = new Audio("musica/07 Shelf Space.mp3");
+audio2.play();
+audio2.volume=0.5;
+
+    Game.init(audio2);
     
   }
 }

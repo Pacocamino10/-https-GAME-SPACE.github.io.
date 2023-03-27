@@ -4,12 +4,13 @@ class Player {
 
     this.img = new Image();
     this.img.src = "PNG/navesYaliens/nave1.png";
+  
 
     this.img.currentFrame = 0;
     this.img.frameCount = 3;
 
-    this.width = 100;
-    this.height = 130;
+    this.width = 150;
+    this.height = 150;
 
     this.y0 = game.height * 0.85;
 
@@ -38,7 +39,7 @@ class Player {
   }
 
   setCotrols() {
-    const {IZQ, DCHA, SHOOT } = this.game.keys;
+    const { IZQ, DCHA, SHOOT } = this.game.keys;
     addEventListener("keydown", ({ code }) => {
       switch (code) {
         case IZQ:
@@ -49,13 +50,13 @@ class Player {
           break;
 
         case DCHA:
-          if (this.pos.x < (this.game.width-this.width)) {
+          if (this.pos.x < (this.game.width)- this.width) {
             this.speed.x = 3;
             this.controls.right.pressed = true;
           }
           break;
-        }
-      });
+      }
+    });
     addEventListener("keyup", ({ code }) => {
       switch (code) {
         case IZQ:
@@ -63,9 +64,11 @@ class Player {
           this.controls.left.pressed = false;
           break;
 
-      case SHOOT:
-        this.shoot();
-        break;
+        case SHOOT:
+          const audio = new Audio("musica/dissparo.mp3");
+          audio.play(); 
+          this.shoot();
+          break;
         case DCHA:
           if (this.width < this.game.width) {
             this.speed.x = 0;
@@ -98,7 +101,6 @@ class Player {
   }
 
   move() {
-   
     if (this.controls.right.pressed) {
       this.speed.x = 10;
     } else if (this.controls.left.pressed) {

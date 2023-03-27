@@ -9,8 +9,13 @@ const Game = {
     DCHA: "ArrowRight",
     SHOOT: "Space",
   },
-
-  init() {
+  init(musica) {
+    document.body.innerHTML="";
+    
+    
+    this.cancion=musica;
+    this.cancion.play();
+  
     const canvas = document.createElement("canvas");
     document.body.appendChild(canvas);
     canvas.width = this.width;
@@ -20,8 +25,6 @@ const Game = {
     this.setup();
     this.start();
   },
-
-
 
   setup() {
     console.log("Estableciendo valores iniciales para el juego");
@@ -45,8 +48,11 @@ const Game = {
     this.frameCounter = 0;
     this.contadorObs = 0;
     this.contadorAlien = 0;
+    this.contadorColision = 0;
     this.contadorProteccion = 0;
+    this.contadorAliens = 0;
     this.contadorPlayer = 0;
+    this.eleccion;
     this.animationLoopId = setInterval(() => {
       this.clear();
 
@@ -71,26 +77,31 @@ const Game = {
       this.moveAll();
 
       this.scoreBoard.update(this.score);
-      if (this.isCollisionObsPlayer())
-     
-       if(this.contadorPlayer==3){this.gameOver()}
+
+      if (this.contadorPlayer === 3) {
+        this.eleccion = "a";
+        this.gameOver();
+      }
       if (this.isCollisionbulletsAlienPlayer()) {
         this.contadorPlayer++;
-      };
-      if (this.isCollisionBulletObstacle());
-      if (this.isCollisionBulletAlien());
-      if (this.isCollisionBulletProteccion());
-      if (this.isCollisionObsPro()) {
       }
+
+      if (this.isCollisionBulletAlien());
+
+      if (this.isCollisionBulletObstacle());
+
+      if (this.isCollisionBulletProteccion());
 
       if (this.isCollisionBulletAliensProteccion()) {
       }
       if (this.isCollisionObsPlayer()) {
+        this.eleccion = "b";
         this.gameOver();
       }
-
-      
-      this.clearObstacles();
+      if (this.contadorAliens === 3) {
+        this.eleccion = "c";
+        this.gameOver();
+      }
     }, 1000 / this.fps);
   },
 
@@ -129,9 +140,10 @@ const Game = {
   },
 
   clearObstacles() {
-    this.obstacles = this.obstacles.filter(
-      (obstacle) => obstacle.pos.x + obstacle.width > 0
-    );
+    // this.bulletsAlien = this.bulletsAlien.filter(
+    //   (bullet) => bullet.y+bullet.height >= this.background.height
+    // );
+    this.bullets = this.bullets.filter((bullet) => bullet.pos.x > 0);
   },
   generateObstacle() {
     this.obstacles.push(new Obstacle(this));
@@ -147,9 +159,8 @@ const Game = {
   },
 
   isCollisionbulletsAlienPlayer() {
-    return this.bulletsAlien.some(
-      (bullet) => {
-        const isCollision =
+    return this.bulletsAlien.some((bullet) => {
+      const isCollision =
         bullet.x > this.player.pos.x &&
         bullet.x < this.player.pos.x + this.player.width &&
         bullet.y > this.player.pos.y &&
@@ -157,15 +168,16 @@ const Game = {
 
       if (isCollision) {
         console.log("colision");
+        const impacto= new Audio("musica/impacto.mp3");
+        impacto.play();
         this.bulletsAlien = this.bulletsAlien.filter((b) => b !== bullet);
       }
 
       return isCollision;
-      
-  });
-
+    });
   },
   isCollisionBulletAlien() {
+    
     return this.aliens.some((alien) => {
       return this.player.bullets.some((bullet) => {
         const isCollision =
@@ -175,11 +187,11 @@ const Game = {
           bullet.pos.y < alien.y + alien.height;
 
         if (isCollision) {
-          if (alien.contadorColision == 20) {
+          if (alien.contadorColision == 5) {
+            this.contadorAliens++;
             this.aliens = this.aliens.filter((o) => o !== alien);
           }
           alien.contadorColision++;
-
           this.player.bullets = this.player.bullets.filter((b) => b !== bullet);
         }
 
@@ -197,7 +209,7 @@ const Game = {
           bullet.pos.y < obstacle.pos.y + obstacle.height;
 
         if (isCollision) {
-          if (obstacle.contadorColision == 3) {
+          if (obstacle.contadorColision == 2) {
             this.obstacles = this.obstacles.filter((o) => o !== obstacle);
             obstacle.contadorColision == 0;
           }
@@ -219,7 +231,6 @@ const Game = {
           bullet.pos.y < proteccion.y + proteccion.height;
 
         if (isCollision) {
-          console.log("colision");
           this.player.bullets = this.player.bullets.filter((b) => b !== bullet);
         }
 
@@ -282,7 +293,26 @@ const Game = {
   },
 
   gameOver() {
+    this.cancion.pause();
     clearInterval(this.animationLoopId);
-    if (confirm("FIN DEL JUEGO. ¿VOLVER A EMPEAZAR?")) new PantallaInicio();
+    document.body.innerHTML = "";
+    console.log(this.contadorAliens);
+
+    switch (this.eleccion) {
+      case "a":
+        new PantallaFinal("HAS PERDIDO","musica/final.mp3")
+        break;
+    
+      case "b":
+        new PantallaFinal("HAS PERDIDO","musica/final.mp3")
+        break;
+    
+      case "c":
+        new PantallaFinal("HAS GANADO","musica/victory-sonic.mp3")
+        break;
+    
+      default:
+        break;
+    }
   },
 };

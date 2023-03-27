@@ -33,7 +33,7 @@ class Obstacle {
 	  this.speed *= -1;
 	  if(this.contador){
 		//console.log("contador "+this.contador); 
-		this.pos.y +=50;
+		this.pos.y +=100;
 		}
 		}
   }
