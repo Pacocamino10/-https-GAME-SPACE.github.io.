@@ -1,3 +1,3 @@
 addEventListener('load', () => {
-	Game.init();
+	new PantallaInicio();
 });

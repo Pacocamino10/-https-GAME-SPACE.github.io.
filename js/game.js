@@ -11,7 +11,8 @@ const Game = {
   },
 
   init() {
-    const canvas = document.querySelector("canvas");
+    const canvas = document.createElement("canvas");
+    document.body.appendChild(canvas);
     canvas.width = this.width;
     canvas.height = this.height;
 
@@ -19,6 +20,8 @@ const Game = {
     this.setup();
     this.start();
   },
+
+
 
   setup() {
     console.log("Estableciendo valores iniciales para el juego");
@@ -50,7 +53,7 @@ const Game = {
       this.frameCounter++;
       this.score += 0.01;
       if (this.frameCounter % 80 === 0) {
-        if (this.contadorObs < 10) {
+        if (this.contadorObs < 20) {
           this.generateObstacle();
           this.contadorObs++;
         }
@@ -69,22 +72,18 @@ const Game = {
 
       this.scoreBoard.update(this.score);
       if (this.isCollisionObsPlayer())
-       console.log("se cumple");
      
-       if(this.contadorPlayer==5){this.gameOver()}
+       if(this.contadorPlayer==3){this.gameOver()}
       if (this.isCollisionbulletsAlienPlayer()) {
         this.contadorPlayer++;
-        console.log(this.contadorPlayer);
       };
       if (this.isCollisionBulletObstacle());
       if (this.isCollisionBulletAlien());
       if (this.isCollisionBulletProteccion());
       if (this.isCollisionObsPro()) {
-        console.log("colision obstaculo con proteccion");
       }
 
       if (this.isCollisionBulletAliensProteccion()) {
-        console.log("bala alien chocando con proteccion");
       }
       if (this.isCollisionObsPlayer()) {
         this.gameOver();
@@ -284,6 +283,6 @@ const Game = {
 
   gameOver() {
     clearInterval(this.animationLoopId);
-    if (confirm("FIN DEL JUEGO. ¿VOLVER A EMPEAZAR?")) this.init();
+    if (confirm("FIN DEL JUEGO. ¿VOLVER A EMPEAZAR?")) new PantallaInicio();
   },
 };

@@ -27,7 +27,7 @@ class Obstacle {
   move() {
 	this.pos.x += this.speed;
 	
-     if (this.pos.x >=( 700 - this.width) || this.pos.x <=0) {
+     if (this.pos.x >=( 900 - this.width) || this.pos.x <=0) {
 	  //console.log("CHOCANDO MURO");
 	  this.contador++;
 	  this.speed *= -1;

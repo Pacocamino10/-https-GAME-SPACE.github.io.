@@ -22,8 +22,8 @@ class Alien {
 
   move() {
     this.x += this.speed;
-    let random = Math.floor(Math.random() * (650 - 50) + 50);
-    if (this.x >= 700 - this.width || this.x <= 0) {
+    let random = Math.floor(Math.random() * (770 - 50) + 50);
+    if (this.x >= 900 - this.width || this.x <= 0) {
       this.speed *= -1;
     }
     if (this.x == random || this.x%random==0) {

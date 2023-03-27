@@ -1,0 +1,22 @@
+.principal{
+    width: 900px;
+    height: 1200px;
+    display: flex;
+    background-image: url('fondo/fondoEstrellas.jpg');
+    justify-content: center;
+    align-items: center;
+}
+canvas{
+
+background-color: blue;
+}
+.botonInicio{
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border-radius: 60%;
+    background-color: rgb(0, 12, 175);
+    color: white;
+    width: 300px;
+    height: 300px;
+    font-size: 40px;
+}
